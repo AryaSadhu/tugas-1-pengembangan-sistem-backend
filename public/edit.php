@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($name === '') $errors[] = 'Nama wajib diisi.';
     if ($category === '') $errors[] = 'Kategori wajib dipilih.';
-    if (!is_numeric($price)) $errors[] = 'Harga harus numerik.';
+    // if (!is_numeric($price)) $errors[] = 'Harga harus numerik.';
     if (!is_numeric($stock) || (int)$stock < 0) $errors[] = 'Stok harus bilangan bulat >= 0.';
 
     $imagePath = $product['image_path']; // default: pertahankan file lama
@@ -58,9 +58,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             $imagePath = 'uploads/' . $filename;
             // opsional: hapus file lama
-            if (!empty($product['image_path']) && file_exists(__DIR__ . '/' . $product['image_path'])) {
-                @unlink(__DIR__ . '/' . $product['image_path']);
-            }
+            if (!empty($product['image_path']) && file_exists(__DIR__ . '/../' . $product['image_path'])) {
+    @unlink(__DIR__ . '/../' . $product['image_path']);
+}
+
         }
     }
 
@@ -68,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $repo->update($id, [
             'name' => $name,
             'category' => $category,
-            'price' => number_format((float)$price, 2, '.', ''),
+            'price' => $price,
             'stock' => (int)$stock,
             'image_path' => $imagePath,
             'status' => $status
@@ -100,6 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </div>
 <?php endif; ?>
 
+
 <form action="" method="post" enctype="multipart/form-data">
   <p>
     <label>Nama Produk:<br>
@@ -118,12 +120,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   </p>
   <p>
     <label>Harga:<br>
-      <input type="number" step="0.01" name="price" value="<?= htmlspecialchars($old['price'] ?? '') ?>" required>
+      <input type="text" name="price" value="<?= htmlspecialchars($old['price'] ?? '') ?>" required>
+
     </label>
   </p>
   <p>
     <label>Stok:<br>
-      <input type="number" name="stock" value="<?= htmlspecialchars($old['stock'] ?? '') ?>" min="0" required>
+      <input type="number" name="stock" value="<?= ($old['stock'] ?? '') ?>" min="0" required>
     </label>
   </p>
   <p>
