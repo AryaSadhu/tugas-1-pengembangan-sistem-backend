@@ -5,6 +5,7 @@ require_once __DIR__ . '/../inc/config.php';
 require_once __DIR__ . '/../inc/Database.php';
 require_once __DIR__ . '/../class/ProductRepository.php';
 
+
 $db = Database::getConnection();
 $repo = new ProductRepository($db);
 $products = $repo->all();
@@ -35,11 +36,12 @@ $products = $repo->all();
     <tbody>
       <?php foreach ($products as $p): ?>
         <tr>
-          <td><?= htmlspecialchars($p['id']) ?></td>
-          <td><?= htmlspecialchars($p['name']) ?></td>
-          <td><?= htmlspecialchars($p['category']) ?></td>
-          <td><?= number_format((float)$p['price'], 2) ?></td>
-          <td><?= htmlspecialchars($p['stock']) ?></td>
+          <td><?= ($p['id']) ?></td>
+          <td><?= ($p['name']) ?></td>
+          <td><?= ($p['category']) ?></td>
+          <td><?= htmlspecialchars($p['price']) ?></td>
+
+          <td><?= ($p['stock']) ?></td>
           <td>
             <?php if (!empty($p['image_path'])): ?>
               <img src="<?= htmlspecialchars($p['image_path']) ?>" alt="" width="80">
