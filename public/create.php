@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($name === '') $errors[] = 'Nama wajib diisi.';
     if ($category === '') $errors[] = 'Kategori wajib dipilih.';
-    if (!is_numeric($price)) $errors[] = 'Harga harus numerik.';
+    // if (!is_numeric($price)) $errors[] = 'Harga harus numerik.';
     if (!is_numeric($stock) || (int)$stock < 0) $errors[] = 'Stok harus bilangan bulat >= 0.';
 
     // handle file upload
@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $repo->create([
             'name' => $name,
             'category' => $category,
-            'price' => number_format((float)$price, 2, '.', ''),
+            'price' => $price,
             'stock' => (int)$stock,
             'image_path' => $imagePath,
             'status' => $status
@@ -110,7 +110,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </p>
     <p>
       <label>Harga:<br>
-        <input type="number" step="0.01" name="price" value="<?= htmlspecialchars($old['price'] ?? '') ?>" required>
+        <input type="text" name="price" value="<?= htmlspecialchars($old['price'] ?? '') ?>" required>
+
       </label>
     </p>
     <p>
