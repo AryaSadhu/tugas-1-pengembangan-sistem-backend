@@ -15,7 +15,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // ambil dan validasi
     $name = trim($_POST['name'] ?? '');
     $category = trim($_POST['category'] ?? '');
-    $price = $_POST['price'] ?? '';
+    $priceRaw = $_POST['price'] ?? '';
+
+// Buang titik/koma dari input
+$priceClean = str_replace(['.', ','], '', $priceRaw);
+
+// Validasi numerik
+if (!is_numeric($priceClean)) {
+    $errors[] = 'Harga harus numerik.';
+}
+
+// Convert ke format decimal(10,2)
+$price = number_format((float)$priceClean, 2, '.', '');
+
     $stock = $_POST['stock'] ?? '';
     $status = $_POST['status'] ?? 'inactive';
 
