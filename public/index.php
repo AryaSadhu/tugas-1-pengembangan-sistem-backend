@@ -9,6 +9,10 @@ require_once __DIR__ . '/../class/ProductRepository.php';
 $db = Database::getConnection();
 $repo = new ProductRepository($db);
 $products = $repo->all();
+function formatPrice($value) {
+    return number_format((float)$value, 0, ',', '.');
+}
+
 ?>
 <!doctype html>
 <html>
@@ -39,7 +43,9 @@ $products = $repo->all();
           <td><?= ($p['id']) ?></td>
           <td><?= ($p['name']) ?></td>
           <td><?= ($p['category']) ?></td>
-          <td><?= htmlspecialchars($p['price']) ?></td>
+          <td><?= htmlspecialchars(formatPrice($p['price'])) ?></td>
+
+
 
           <td><?= ($p['stock']) ?></td>
           <td>
